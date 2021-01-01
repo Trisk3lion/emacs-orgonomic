@@ -51,7 +51,7 @@ Use a prefix arg to get regular RET. "
     (cond
      ;; Break lines like normal
      ((eq 'line-break (car (org-element-context)))
-      (org-return-indent))
+      (org-return-and-maybe-indent))
      ;; Open links like usual
      ((and (eq 'link (car (org-element-context))) (not (eolp)))
       (org-open-at-point-global))
@@ -104,7 +104,7 @@ Use a prefix arg to get regular RET. "
   (interactive "p")
   (if (org-at-table-p)
       (org-table-copy-down n)
-    (org-return-indent)))
+    (org-return-and-maybe-indent)))
 
 ;;;###autoload
 (defun orgonomic-delete-backward-char (&optional n)
