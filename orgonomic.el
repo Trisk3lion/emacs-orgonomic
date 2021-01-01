@@ -47,7 +47,7 @@ A double return on an empty element deletes it.
 Use a prefix arg to get regular RET. "
   (interactive "P")
   (if ignore
-      (org-return)
+      (org-return t)
     (cond
      ;; Break lines like normal
      ((eq 'line-break (car (org-element-context)))
@@ -59,7 +59,7 @@ Use a prefix arg to get regular RET. "
      ;; Johansson!
      ((and (fboundp 'org-inlinetask-in-task-p)
            (org-inlinetask-in-task-p))
-      (org-return))
+      (org-return t))
      ;; If we are in an item and not at the beginning of the line...
      ((and (org-in-item-p) (not (bolp)))
       (cond
@@ -74,7 +74,7 @@ Use a prefix arg to get regular RET. "
         (org-meta-return))
        ;; Otherwise, just return normally
        (t
-        (org-return))))
+        (org-return t))))
      ((org-at-heading-p)
       (cond
        ;; If there's no title, delete the *'s
@@ -83,7 +83,7 @@ Use a prefix arg to get regular RET. "
        ((eolp)
         (org-meta-return))
        (t
-        (org-return))))
+        (org-return t))))
      ((and (org-at-table-p)
            (org-table-check-inside-data-field t))
       (if (-any?
@@ -91,12 +91,12 @@ Use a prefix arg to get regular RET. "
            (nth
             (- (org-table-current-dline) 1)
             (-reject (lambda (row) (eq row 'hline)) (org-table-to-lisp))))
-          (org-return)
+          (org-return t)
         ;; empty row
         (delete-region (line-beginning-position) (line-end-position))
-        (org-return)))
+        (org-return t)))
      (t
-      (org-return)))))
+      (org-return t)))))
 
 ;;;###autoload
 (defun orgonomic-shift-return (n)
